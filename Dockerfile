@@ -1,6 +1,10 @@
 # Wechsel von Buster (EOL) auf Bullseye (LTS)
 FROM python:3.8-slim-bullseye
 
+# Bullseye LTS endete am 31.08.2026 -> apt-Quellen auf Snapshot umstellen
+RUN printf 'deb http://snapshot.debian.org/archive/debian/20260825T000000Z bullseye main\ndeb http://snapshot.debian.org/archive/debian-security/20260825T000000Z bullseye-security main\n' > /etc/apt/sources.list && \
+    echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99snapshot
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     ffmpeg \
